@@ -36,4 +36,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function stocks()
+    {
+        return $this->hasMany(stock::class);
+    }
+    public function loadRelationshipCounts()
+    {
+        $this->loadCount('stocks');
+    }
 }

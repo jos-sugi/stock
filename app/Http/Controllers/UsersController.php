@@ -10,20 +10,18 @@ class UsersController extends Controller
 {
     public function index()
     {
-        // ユーザ一覧をidの降順で取得
         $users = User::orderBy('id', 'desc')->paginate(10);
 
-        // ユーザ一覧ビューで表示
         return view('users.index', [
             'users' => $users,
         ]);
     }
     public function show($id)
     {
-        // idでユーザを検索して取得
         $user = User::findOrFail($id);
+        $user->loadRelationshipCounts();
+        $stocks = $user->stocks()->orderBy('created_at', 'desc')->paginate(10);
 
-        // ユーザ詳細ビューで表示
         return view('users.show', [
             'user' => $user,
         ]);
